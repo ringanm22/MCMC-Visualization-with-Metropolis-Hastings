@@ -1,4 +1,5 @@
-# Load required libraries
+rm(list = ls())
+
 library(ggplot2)
 library(MASS)
 library(viridis)
@@ -9,7 +10,7 @@ library(ggExtra)
 target_distribution <- function(x, y) {
   mu1 <- c(2.5, 1)
   mu2 <- c(-2.5, -1)
-  sigma <- matrix(c(2, 0, 0, 3), nrow = 2)  # Covariance matrix
+  sigma <- matrix(c(2, 0, 0, 3), nrow = 2)  
   
   p1 <- 0.5 * dmvnorm(cbind(x, y), mean = mu1, sigma = sigma)
   p2 <- 0.5 * dmvnorm(cbind(x, y), mean = mu2, sigma = sigma)
@@ -18,27 +19,27 @@ target_distribution <- function(x, y) {
 }
 
 # Calculate theoretical marginal densities
-marginal_density_x <- function(x) {
-  mu1 <- 1
-  mu2 <- -1
-  sigma <- 1
+# marginal_density_x <- function(x) {
+#   mu1 <- 1
+#   mu2 <- -1
+#   sigma <- 1
   
-  p1 <- dnorm(x, mean = mu1, sd = sigma)
-  p2 <- dnorm(x, mean = mu2, sd = sigma)
+#   p1 <- dnorm(x, mean = mu1, sd = sigma)
+#   p2 <- dnorm(x, mean = mu2, sd = sigma)
   
-  return(0.5 * p1 + 0.5 * p2)
-}
+#   return(0.5 * p1 + 0.5 * p2)
+# }
 
-marginal_density_y <- function(y) {
-  mu1 <- 1
-  mu2 <- -1
-  sigma <- 1
+# marginal_density_y <- function(y) {
+#   mu1 <- 1
+#   mu2 <- -1
+#   sigma <- 1
   
-  p1 <- dnorm(y, mean = mu1, sd = sigma)
-  p2 <- dnorm(y, mean = mu2, sd = sigma)
+#   p1 <- dnorm(y, mean = mu1, sd = sigma)
+#   p2 <- dnorm(y, mean = mu2, sd = sigma)
   
-  return(0.5 * p1 + 0.5 * p2)
-}
+#   return(0.5 * p1 + 0.5 * p2)
+# }
 
 # Create a grid over x and y for the contour plot
 x_seq <- seq(-6, 6, length.out = 100)
@@ -46,7 +47,7 @@ y_seq <- seq(-6, 6, length.out = 100)
 grid <- expand.grid(x = x_seq, y = y_seq)
 grid$z <- target_distribution(grid$x, grid$y)
 
-# Metropolis-Hastings algorithm for bivariate distribution
+# Metropolis-Hastings algorithm 
 metropolis_hastings_bivariate <- function(n_iter, init_val, proposal_sd) {
   samples <- matrix(NA, nrow = n_iter, ncol = 2)  # Store bivariate samples
   samples[1, ] <- init_val  # Initial value
